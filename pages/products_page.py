@@ -27,6 +27,11 @@ class ProductsPage:
             By.XPATH,
             "//button[contains(text(),'Guardar en Inventario')]"
         )
+            
+        self.btn_editar = (
+            By.XPATH,
+            ".//button[contains(text(),'Editar')]"    
+        )
 
     def abrir_modal(self):
         WebDriverWait(self.driver, 10).until(
@@ -85,8 +90,8 @@ class ProductsPage:
         EC.url_contains("/dashboard")
     )
         
-
-
+        
+        
     def producto_existe(self, nombre):
 
         localizador = (
@@ -121,3 +126,34 @@ class ProductsPage:
         )
 
         return campo.get_attribute("validationMessage")
+    
+    def editar_producto(self, nombre):
+
+        fila = WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located(
+                (
+                    By.XPATH,
+                    f"//div[contains(@class,'font-bold') and normalize-space(text())='{nombre}']/ancestor::div[contains(@class,'border')]"
+                )
+            )
+        )
+
+
+        boton_editar = fila.find_element(
+            *self.btn_editar
+        )
+
+        boton_editar.click()
+
+
+        WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located(self.nombre)
+     )
+        
+    def obtener_nombre(self):
+
+        campo = WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located(self.nombre)
+        )
+
+        return campo.get_attribute("value")
