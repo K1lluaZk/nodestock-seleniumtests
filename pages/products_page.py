@@ -2,6 +2,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.alert import Alert
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 class ProductsPage:
@@ -157,3 +161,56 @@ class ProductsPage:
         )
 
         return campo.get_attribute("value")
+    
+    def borrar_producto_por_sku(self, sku):
+
+        fila = (
+            By.XPATH,
+         f"//tr[.//td[contains(text(),'{sku}')]]"
+        )
+
+        elemento = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located(fila)
+        )
+
+        boton = elemento.find_element(
+            By.XPATH,
+            ".//button[contains(.,'Borrar')]"
+        )
+
+        boton.click()
+        
+    def aceptar_confirmacion(self):
+
+        WebDriverWait(self.driver, 5).until(
+            EC.alert_is_present()
+        )
+
+        self.driver.switch_to.alert.accept()
+
+    def aceptar_confirmacion(self):
+
+        WebDriverWait(self.driver, 5).until(
+            EC.alert_is_present()
+        )
+
+        self.driver.switch_to.alert.accept()
+
+
+    def cancelar_confirmacion(self):
+
+        WebDriverWait(self.driver, 5).until(
+            EC.alert_is_present()
+        )
+
+        self.driver.switch_to.alert.dismiss()
+
+
+    def existe_producto(self, sku):
+
+        elementos = self.driver.find_elements(
+            By.XPATH,
+            f"//td[contains(text(),'{sku}')]"
+        )
+
+        return len(elementos) > 0
