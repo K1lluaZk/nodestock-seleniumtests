@@ -215,6 +215,12 @@ class ProductsPage:
         return len(elementos) > 0
     
     def buscar_producto(self, nombre):
+        
+        WebDriverWait(self.driver, 10).until(
+            EC.invisibility_of_element_located(
+                (By.ID, "modalProducto")
+            )
+        )
 
         campo = WebDriverWait(self.driver, 10).until(
             EC.visibility_of_element_located(
