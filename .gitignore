@@ -11,9 +11,6 @@ __pycache__/
 .vscode/
 .idea/
 
-# Reportes generados por pruebas
-reports/
-*.html
 
 # Capturas generadas automáticamente
 screenshots/
